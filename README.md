@@ -15,11 +15,9 @@
 
 ---
 
-## 📸 Proje Görselleri
-
 <div align="center">
   
-### 🖥️ Desktop Görünümü
+### 🖥️ Masaüstü Görünüm
 ![Desktop View](https://github.com/mustafakaracuha/royatek-yazilim/blob/main/src/assets/app.png)
 </div>
 
