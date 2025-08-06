@@ -8,7 +8,12 @@ export default function HeroSection() {
   const [logosRef, logosRevealed] = useScrollReveal({ delay: 800 });
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-purple-100 px-4 overflow-hidden" style={{height: '100vh'}}>
+    <section 
+      id="hero" 
+      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-purple-100 px-4 overflow-hidden" 
+      style={{height: '100vh'}}
+      aria-label="Ana sayfa banner"
+    >
       {/* Hareketli blur shape */}
       <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-gradient-to-br from-blue-400 via-purple-300 to-blue-200 rounded-full blur-3xl opacity-30 animate-pulse-slow z-0" />
       {/* Yavaşça hareket eden SVG shape */}

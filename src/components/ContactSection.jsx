@@ -106,6 +106,7 @@ export default function ContactSection() {
     <section
       id="contact"
       className="relative py-32 bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50 px-4 overflow-hidden"
+      aria-label="İletişim"
     >
       {/* Dekoratif arka plan elementleri */}
       <div className="absolute inset-0 pointer-events-none">
@@ -172,7 +173,7 @@ export default function ContactSection() {
                   <p className="text-gray-600">En kısa sürede size dönüş yapacağız.</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6" aria-label="İletişim formu">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">

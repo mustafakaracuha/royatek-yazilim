@@ -65,7 +65,11 @@ export default function ServicesSection() {
   const [service3Ref, service3Revealed] = useScrollReveal({ delay: 700 });
 
   return (
-    <section id="services" className="relative py-32 bg-gradient-to-br from-white via-blue-50/50 to-purple-50/50 px-4 overflow-hidden">
+    <section 
+      id="services" 
+      className="relative py-32 bg-gradient-to-br from-white via-blue-50/50 to-purple-50/50 px-4 overflow-hidden"
+      aria-label="Hizmetlerimiz"
+    >
       {/* Dekoratif arka plan elementleri */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse-slow"></div>
