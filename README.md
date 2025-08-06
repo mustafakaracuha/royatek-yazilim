@@ -62,8 +62,6 @@ royatek-yazilim/
 │   └── 🎨 index.css                   # Global styles
 ├── 📄 index.html                      # HTML template
 ├── 📦 package.json                    # Dependencies
-├── ⚙️ tailwind.config.js              # Tailwind config
-├── ⚙️ postcss.config.js               # PostCSS config
 └── 📖 README.md                       # Bu dosya
 ```
 
