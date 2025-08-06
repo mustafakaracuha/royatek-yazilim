@@ -20,7 +20,7 @@
 <div align="center">
   
 ### 🖥️ Desktop Görünümü
-![Desktop View](https://via.placeholder.com/1200x800/3B82F6/FFFFFF?text=Desktop+View+-+Royatek+Yazılım)
+![Desktop View](https://github.com/mustafakaracuha/royatek-yazilim/blob/main/src/assets/app.png)
 </div>
 
 ---
@@ -50,20 +50,6 @@
 
 </div>
 
-## 🎯 Öne Çıkan Özellikler
-
-<div align="center">
-
-### 🎭 Smooth Scroll Animasyonları
-![Smooth Scroll](https://via.placeholder.com/400x250/3B82F6/FFFFFF?text=Smooth+Scroll+Animations)
-
-### 📱 Responsive Design
-![Responsive](https://via.placeholder.com/400x250/8B5CF6/FFFFFF?text=Responsive+Design)
-
-### ⚡ Performance Optimized
-![Performance](https://via.placeholder.com/400x250/10B981/FFFFFF?text=Performance+Optimized)
-
-</div>
 
 ## 📁 Proje Yapısı
 
