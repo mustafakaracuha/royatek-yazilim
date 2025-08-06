@@ -67,18 +67,6 @@ royatek-yazilim/
 └── 📖 README.md                       # Bu dosya
 ```
 
-## 📦 Build & Deployment
-
-### Production Build
-```bash
-npm run build
-```
-
-### Preview Production Build
-```bash
-npm run preview
-```
-
 ## 📄 Lisans
 
 Bu proje [MIT](LICENSE) lisansı altında lisanslanmıştır.
