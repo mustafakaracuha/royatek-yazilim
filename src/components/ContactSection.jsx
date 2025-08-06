@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useScrollReveal } from "../hooks/useScrollReveal";
 
 export default function ContactSection() {
   const [form, setForm] = useState({
@@ -10,6 +11,11 @@ export default function ContactSection() {
   });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // Scroll reveal hooks
+  const [headerRef, headerRevealed] = useScrollReveal({ delay: 200 });
+  const [formRef, formRevealed] = useScrollReveal({ delay: 400 });
+  const [infoRef, infoRevealed] = useScrollReveal({ delay: 600 });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -99,26 +105,19 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="relative py-32 bg-gradient-to-br from-white via-blue-50/50 to-purple-50/50 px-4 overflow-hidden"
+      className="relative py-32 bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50 px-4 overflow-hidden"
     >
       {/* Dekoratif arka plan elementleri */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse-slow"></div>
-        <div
-          className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-tl from-purple-400/20 to-blue-400/20 rounded-full blur-3xl animate-pulse-slow"
-          style={{ animationDelay: "2s" }}
-        ></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-blue-200/10 via-purple-200/10 to-blue-200/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 right-20 w-72 h-72 bg-gradient-to-br from-blue-400/15 to-purple-400/15 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-tl from-purple-400/15 to-blue-400/15 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay: '3s'}}></div>
+        <div className="absolute top-1/3 left-1/3 w-[800px] h-[800px] bg-gradient-to-r from-blue-200/10 via-purple-200/10 to-blue-200/10 rounded-full blur-3xl"></div>
       </div>
 
       {/* SVG Wave Background */}
       <div className="absolute top-0 left-0 w-full h-32 pointer-events-none">
         <svg className="w-full h-full" viewBox="0 0 1440 320" fill="none">
-          <path
-            fill="url(#contactGradient)"
-            fillOpacity="0.1"
-            d="M0,160L1440,320L1440,0L0,0Z"
-          />
+          <path fill="url(#contactGradient)" fillOpacity="0.1" d="M0,160L1440,320L1440,0L0,0Z" />
           <defs>
             <linearGradient id="contactGradient" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stopColor="#3b82f6" />
@@ -130,15 +129,14 @@ export default function ContactSection() {
 
       <div className="relative max-w-7xl mx-auto z-10">
         {/* Header */}
-        <div className="text-center mb-20 animate-fade-in">
+        <div 
+          ref={headerRef}
+          className={`text-center mb-20 transition-all duration-1000 ${
+            headerRevealed ? 'animate-slide-in-bottom' : 'opacity-0 translate-y-[60px]'
+          }`}
+        >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full text-blue-700 font-medium text-sm mb-6">
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
             İletişim
@@ -147,269 +145,177 @@ export default function ContactSection() {
             Bizimle İletişime Geçin
           </h2>
           <p className="text-xl text-gray-700 font-medium max-w-3xl mx-auto leading-relaxed">
-            Projenizi hayata geçirmek için hazırız. Aşağıdaki formu doldurun
-            veya iletişim bilgilerimizden bize ulaşın.
+            Projeniz hakkında konuşmak, teklif almak veya sadece merhaba demek için bizimle iletişime geçin. 
+            Size en kısa sürede dönüş yapacağız.
           </p>
         </div>
 
-        {/* Main Content */}
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left: Contact Info & Map */}
-          <div className="space-y-8 animate-fade-in">
-            {/* Contact Info Cards */}
-            <div className="space-y-4">
+        <div className="grid lg:grid-cols-2 gap-16">
+          {/* Contact Form */}
+          <div 
+            ref={formRef}
+            className={`transition-all duration-1000 ${
+              formRevealed ? 'animate-slide-in-left' : 'opacity-0 translate-x-[-60px]'
+            }`}
+          >
+            <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 p-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Mesaj Gönderin</h3>
+              
+              {sent ? (
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <h4 className="text-xl font-semibold text-gray-900 mb-2">Mesajınız Gönderildi!</h4>
+                  <p className="text-gray-600">En kısa sürede size dönüş yapacağız.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Ad Soyad *
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={form.name}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                        placeholder="Adınız ve soyadınız"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        E-posta *
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                        placeholder="ornek@email.com"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Telefon
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={form.phone}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                        placeholder="+90 5XX XXX XX XX"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Şirket
+                      </label>
+                      <input
+                        type="text"
+                        name="company"
+                        value={form.company}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                        placeholder="Şirket adı"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Mesaj *
+                    </label>
+                    <textarea
+                      name="message"
+                      value={form.message}
+                      onChange={handleChange}
+                      required
+                      rows={6}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm resize-none"
+                      placeholder="Projeniz hakkında detayları paylaşın..."
+                    />
+                  </div>
+                  
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover-float"
+                  >
+                    {loading ? (
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        <span>Gönderiliyor...</span>
+                      </div>
+                    ) : (
+                      "Mesaj Gönder"
+                    )}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+
+          {/* Contact Info */}
+          <div 
+            ref={infoRef}
+            className={`transition-all duration-1000 delay-300 ${
+              infoRevealed ? 'animate-slide-in-right' : 'opacity-0 translate-x-[60px]'
+            }`}
+          >
+            <div className="space-y-6">
               {contactInfo.map((info, index) => (
                 <div
                   key={info.title}
-                  className="group bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className={`group relative bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 hover-float ${
+                    info.link ? 'cursor-pointer' : ''
+                  }`}
+                  onClick={() => info.link && window.open(info.link, '_blank')}
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                       {info.icon}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-900 mb-1">
+                      <h4 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors duration-300">
                         {info.title}
-                      </h3>
-                      {info.link ? (
-                        <a
-                          href={info.link}
-                          target={
-                            info.link.startsWith("http") ? "_blank" : undefined
-                          }
-                          rel={
-                            info.link.startsWith("http")
-                              ? "noopener noreferrer"
-                              : undefined
-                          }
-                          className="text-gray-600 hover:text-blue-700 transition-colors duration-300 font-medium"
-                        >
-                          {info.content}
-                        </a>
-                      ) : (
-                        <p className="text-gray-600 font-medium">
-                          {info.content}
-                        </p>
-                      )}
+                      </h4>
+                      <p className="text-gray-600 leading-relaxed">
+                        {info.content}
+                      </p>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
 
-
-            {/* Social Media */}
-            <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-6 border border-white/50 shadow-xl">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">
-                Sosyal Medya
-              </h3>
-              <div className="flex gap-4">
-                {[
-                  {
-                    name: "LinkedIn",
-                    icon: "M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-9h3v9zm-1.5-10.28c-.97 0-1.75-.79-1.75-1.75s.78-1.75 1.75-1.75 1.75.79 1.75 1.75-.78 1.75-1.75 1.75zm13.5 10.28h-3v-4.5c0-1.08-.02-2.47-1.5-2.47-1.5 0-1.73 1.17-1.73 2.39v4.58h-3v-9h2.89v1.23h.04c.4-.75 1.38-1.54 2.84-1.54 3.04 0 3.6 2 3.6 4.59v4.72z",
-                  },
-                  {
-                    name: "GitHub",
-                    icon: "M12 0c-6.63 0-12 5.37-12 12 0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.809 1.304 3.495.997.108-.775.418-1.305.762-1.605-2.665-.305-5.466-1.332-5.466-5.931 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.984-.399 3.003-.404 1.019.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.873.119 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.803 5.624-5.475 5.921.43.371.823 1.102.823 2.222v3.293c0 .322.218.694.825.576 4.765-1.587 8.2-6.086 8.2-11.384 0-6.63-5.373-12-12-12z",
-                  },
-                  {
-                    name: "Instagram",
-                    icon: "M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.974 1.246 2.241 1.308 3.608.058 1.266.069 1.646.069 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.974.974-2.241 1.246-1.308 1.308-1.266.058-1.646.069-4.85.069s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.974-.974-1.246-2.241-1.308-3.608-.058-1.266-.069-1.646-.069-4.85s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.974-.974 2.241-1.246 3.608-1.308 1.266-.058 1.646-.069 4.85-.069zm0-2.163c-3.259 0-3.667.012-4.947.07-1.276.058-2.687.334-3.678 1.325-.991.991-1.267 2.402-1.325 3.678-.058 1.28-.07 1.688-.07 4.947s.012 3.667.07 4.947c.058 1.276.334 2.687 1.325 3.678.991.991 2.402 1.267 3.678 1.325 1.28.058 1.688.07 4.947.07s3.667-.012 4.947-.07c1.276-.058 2.687-.334 3.678-1.325.991-.991 1.267-2.402 1.325-3.678-.058-1.28-.07-1.688-.07-4.947s-.012-3.667-.07-4.947c-.058-1.276-.334-2.687-1.325-3.678-.991-.991-2.402-1.267-3.678-1.325-1.28-.058-1.688-.07-4.947-.07zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z",
-                  },
-                ].map((social, index) => (
-                  <a
-                    key={social.name}
-                    href="#"
-                    className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white hover:scale-110 hover:shadow-lg transition-all duration-300"
-                    aria-label={social.name}
-                  >
-                    <svg
-                      className="w-6 h-6"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d={social.icon} />
-                    </svg>
-                  </a>
-                ))}
+            {/* Map Placeholder */}
+            <div className="mt-8 bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover-float">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4">Ofisimiz</h4>
+              <div className="w-full h-48 bg-gradient-to-br from-blue-100 to-purple-100 rounded-xl flex items-center justify-center">
+                <div className="text-center">
+                  <svg className="w-12 h-12 text-blue-600 mx-auto mb-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0L6.343 16.657A8 8 0 1117.657 16.657z" />
+                    <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <p className="text-gray-600 text-sm">Harita yükleniyor...</p>
+                </div>
               </div>
-            </div>
-          </div>
-
-          {/* Right: Contact Form */}
-          <div className="animate-fade-in" style={{ animationDelay: "0.3s" }}>
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50 overflow-hidden">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
-                <h3 className="text-2xl font-bold mb-2">Mesaj Gönderin</h3>
-                <p className="text-blue-100">
-                  Projenizi birlikte hayata geçirelim
-                </p>
-              </div>
-
-              <form onSubmit={handleSubmit} className="p-8 space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      İsim *
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Adınız Soyadınız"
-                      value={form.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-gray-700 bg-white/70 transition-all duration-300"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      E-posta *
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="ornek@email.com"
-                      value={form.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-gray-700 bg-white/70 transition-all duration-300"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Telefon
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      placeholder="+90 5XX XXX XX XX"
-                      value={form.phone}
-                      onChange={handleChange}
-                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-gray-700 bg-white/70 transition-all duration-300"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Şirket
-                    </label>
-                    <input
-                      type="text"
-                      name="company"
-                      placeholder="Şirket Adı"
-                      value={form.company}
-                      onChange={handleChange}
-                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-gray-700 bg-white/70 transition-all duration-300"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Mesaj *
-                  </label>
-                  <textarea
-                    name="message"
-                    placeholder="Projeniz hakkında detayları paylaşın..."
-                    value={form.message}
-                    onChange={handleChange}
-                    required
-                    rows={5}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-gray-700 bg-white/70 resize-none transition-all duration-300"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl py-4 hover:shadow-xl hover:scale-105 transition-all duration-300 text-lg disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
-                >
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    {loading ? (
-                      <>
-                        <svg
-                          className="animate-spin w-5 h-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg>
-                        Gönderiliyor...
-                      </>
-                    ) : (
-                      <>
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                        </svg>
-                        Mesaj Gönder
-                      </>
-                    )}
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </button>
-
-                {sent && (
-                  <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-                    <div className="flex items-center justify-center gap-2 text-green-700 font-medium">
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      Mesajınız başarıyla iletildi! En kısa sürede size dönüş
-                      yapacağız.
-                    </div>
-                  </div>
-                )}
-              </form>
             </div>
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes pulse-slow {
-          0%,
-          100% {
-            opacity: 0.2;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 0.3;
-            transform: scale(1.05);
-          }
-        }
-        .animate-pulse-slow {
-          animation: pulse-slow 8s ease-in-out infinite;
-        }
-      `}</style>
     </section>
   );
 }

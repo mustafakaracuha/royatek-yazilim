@@ -1,3 +1,5 @@
+import { useScrollReveal } from "../hooks/useScrollReveal";
+
 const services = [
   {
     title: "Web Yazılım",
@@ -57,6 +59,11 @@ const services = [
 ];
 
 export default function ServicesSection() {
+  const [headerRef, headerRevealed] = useScrollReveal({ delay: 200 });
+  const [service1Ref, service1Revealed] = useScrollReveal({ delay: 300 });
+  const [service2Ref, service2Revealed] = useScrollReveal({ delay: 500 });
+  const [service3Ref, service3Revealed] = useScrollReveal({ delay: 700 });
+
   return (
     <section id="services" className="relative py-32 bg-gradient-to-br from-white via-blue-50/50 to-purple-50/50 px-4 overflow-hidden">
       {/* Dekoratif arka plan elementleri */}
@@ -81,7 +88,12 @@ export default function ServicesSection() {
 
       <div className="relative max-w-7xl mx-auto z-10">
         {/* Header */}
-        <div className="text-center mb-20 animate-fade-in">
+        <div 
+          ref={headerRef}
+          className={`text-center mb-20 transition-all duration-1000 ${
+            headerRevealed ? 'animate-slide-in-bottom' : 'opacity-0 translate-y-[60px]'
+          }`}
+        >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full text-blue-700 font-medium text-sm mb-6">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -98,111 +110,88 @@ export default function ServicesSection() {
         </div>
 
         {/* Services Grid */}
-        <div className="grid gap-8 lg:gap-12 xl:grid-cols-3">
-          {services.map((service, i) => (
-            <div
-              key={service.title}
-              className="group relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50 hover:shadow-3xl transition-all duration-500 animate-fade-in overflow-hidden"
-              style={{ animationDelay: `${i * 0.2}s` }}
-            >
-              {/* Gradient Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
-              
-              {/* Card Content */}
-              <div className="relative p-8 lg:p-10">
-                {/* Icon */}
-                <div className="mb-6 flex justify-center">
-                  {service.icon}
-                </div>
-
-                {/* Title & Subtitle */}
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors duration-300">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {services.map((service, index) => {
+            const refs = [service1Ref, service2Ref, service3Ref];
+            const revealed = [service1Revealed, service2Revealed, service3Revealed];
+            
+            return (
+              <div
+                key={service.title}
+                ref={refs[index]}
+                className={`group relative bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden hover-float ${
+                  revealed[index] ? 'animate-slide-in-bottom' : 'opacity-0 translate-y-[60px]'
+                }`}
+              >
+                {/* Gradient overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                
+                {/* Content */}
+                <div className="relative p-8">
+                  {/* Icon */}
+                  <div className="mb-6">
+                    {service.icon}
+                  </div>
+                  
+                  {/* Title & Subtitle */}
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors duration-300">
                     {service.title}
                   </h3>
-                  <p className="text-blue-600 font-semibold text-sm uppercase tracking-wide">
-                    {service.subtitle}
+                  <p className="text-blue-600 font-medium mb-4">{service.subtitle}</p>
+                  
+                  {/* Description */}
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    {service.desc}
                   </p>
-                </div>
-
-                {/* Image */}
-                <div className="mb-6 relative">
-                  <img
-                    src={service.img}
-                    alt={service.title}
-                    className="w-full h-48 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
-                </div>
-
-                {/* Description */}
-                <p className="text-gray-600 text-base leading-relaxed mb-6 text-center">
-                  {service.desc}
-                </p>
-
-                {/* Features */}
-                <div className="mb-8">
-                  <div className="grid grid-cols-2 gap-3">
-                    {service.features.map((feature, index) => (
-                      <div key={feature} className="flex items-center gap-2 text-sm text-gray-700">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        <span className="font-medium">{feature}</span>
+                  
+                  {/* Features */}
+                  <div className="space-y-2 mb-6">
+                    {service.features.map((feature, featureIndex) => (
+                      <div key={feature} className="flex items-center gap-2 text-sm text-gray-600">
+                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                        <span>{feature}</span>
                       </div>
                     ))}
                   </div>
-                </div>
-
-                {/* CTA Button */}
-                <div className="text-center">
+                  
+                  {/* Image */}
+                  <div className="relative overflow-hidden rounded-2xl mb-6">
+                    <img
+                      src={service.img}
+                      alt={service.title}
+                      className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  </div>
+                  
+                  {/* CTA Button */}
                   <a
                     href="#contact"
-                    className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${service.gradient} text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group/btn relative overflow-hidden`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const el = document.querySelector('#contact');
+                      if (el) {
+                        const headerHeight = 80;
+                        const targetPosition = el.offsetTop - headerHeight;
+                        window.scrollTo({
+                          top: targetPosition,
+                          behavior: 'smooth'
+                        });
+                      }
+                    }}
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:scale-105 hover:shadow-lg transition-all duration-300 group-hover:from-blue-700 group-hover:to-purple-700"
                   >
-                    <span className="relative z-10">Teklif Al</span>
-                    <svg className="w-5 h-5 relative z-10 transition-transform duration-300 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <span>Detayları Gör</span>
+                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
-                    <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700"></div>
                   </a>
                 </div>
               </div>
-
-              {/* Hover Border Effect */}
-              <div className={`absolute inset-0 rounded-3xl border-2 border-transparent bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
-            </div>
-          ))}
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-16 animate-fade-in" style={{animationDelay: '0.8s'}}>
-          <div className="inline-flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200/50">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-gray-700 font-medium">7/24 Teknik Destek</span>
-            </div>
-            <div className="w-px h-6 bg-gray-300"></div>
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span className="text-gray-700 font-medium">%100 Memnuniyet Garantisi</span>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.2; transform: scale(1); }
-          50% { opacity: 0.4; transform: scale(1.05); }
-        }
-        .animate-pulse-slow {
-          animation: pulse-slow 6s ease-in-out infinite;
-        }
-        .shadow-3xl {
-          box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
-        }
-      `}</style>
     </section>
   );
 }

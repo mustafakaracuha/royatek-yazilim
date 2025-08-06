@@ -11,10 +11,46 @@ const menu = [
 
 function scrollToSection(e, href, closeMenu, active, setActive) {
   e.preventDefault();
+  
+  // Element'i bul
   const el = document.querySelector(href);
-  if (el) {
-    el.scrollIntoView({ behavior: "smooth" });
+  if (!el) {
+    console.warn(`Element not found: ${href}`);
+    return;
   }
+
+  // Header yüksekliğini hesapla (sticky header için)
+  const headerHeight = 80; // Yaklaşık header yüksekliği
+  
+  // Hedef pozisyonu hesapla
+  const targetPosition = el.offsetTop - headerHeight;
+  const startPosition = window.pageYOffset;
+  const distance = targetPosition - startPosition;
+  const duration = 800; // 0.8 saniye
+  let start = null;
+
+  function animation(currentTime) {
+    if (start === null) start = currentTime;
+    const timeElapsed = currentTime - start;
+    const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+    window.scrollTo(0, run);
+    if (timeElapsed < duration) {
+      requestAnimationFrame(animation);
+    }
+  }
+
+  // Easing function for smooth animation
+  function easeInOutCubic(t, b, c, d) {
+    t /= d / 2;
+    if (t < 1) return c / 2 * t * t * t + b;
+    t -= 2;
+    return c / 2 * (t * t * t + 2) + b;
+  }
+
+  // Animasyonu başlat
+  requestAnimationFrame(animation);
+  
+  // Menu'yu kapat ve active state'i güncelle
   if (closeMenu) closeMenu();
   if (active !== href && setActive) setActive(href);
 }
@@ -135,6 +171,7 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-4">
           <a
             href="#contact"
+            onClick={(e) => scrollToSection(e, "#contact", null, active, setActive)}
             className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 relative overflow-hidden group"
           >
             <span className="relative z-10">Teklif Al</span>
@@ -246,6 +283,7 @@ export default function Header() {
               <div className="mt-8 pt-6 border-t border-gray-200">
                 <a
                   href="#contact"
+                  onClick={(e) => scrollToSection(e, "#contact", () => setMobileOpen(false), active, setActive)}
                   className="block w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl text-center shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   Hemen Teklif Al

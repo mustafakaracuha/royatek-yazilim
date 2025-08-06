@@ -1,4 +1,12 @@
+import { useScrollReveal } from "../hooks/useScrollReveal";
+
 export default function HeroSection() {
+  const [titleRef, titleRevealed] = useScrollReveal({ delay: 200 });
+  const [subtitleRef, subtitleRevealed] = useScrollReveal({ delay: 400 });
+  const [ctaRef, ctaRevealed] = useScrollReveal({ delay: 600 });
+  const [imageRef, imageRevealed] = useScrollReveal({ delay: 300 });
+  const [logosRef, logosRevealed] = useScrollReveal({ delay: 800 });
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-purple-100 px-4 overflow-hidden" style={{height: '100vh'}}>
       {/* Hareketli blur shape */}
@@ -22,15 +30,40 @@ export default function HeroSection() {
       <div className="relative z-10 flex flex-col md:flex-row items-center gap-12 max-w-6xl w-full px-4">
         {/* Sol: Başlık ve CTA */}
         <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-blue-700 via-purple-600 to-blue-400 bg-clip-text text-transparent drop-shadow-2xl animate-fade-in">
+          <h1 
+            ref={titleRef}
+            className={`text-4xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-blue-700 via-purple-600 to-blue-400 bg-clip-text text-transparent drop-shadow-2xl transition-all duration-1000 ${
+              titleRevealed ? 'animate-slide-in-left' : 'opacity-0 translate-x-[-60px]'
+            }`}
+          >
             Modern Yazılım <br /> <span className="text-blue-700">Çözümleriyle</span> <br /> İşinizi Büyütün
           </h1>
-          <p className="text-xl md:text-2xl text-gray-700 mb-8 font-medium animate-fade-in delay-100">
+          <p 
+            ref={subtitleRef}
+            className={`text-xl md:text-2xl text-gray-700 mb-8 font-medium transition-all duration-1000 delay-200 ${
+              subtitleRevealed ? 'animate-slide-in-left' : 'opacity-0 translate-x-[-60px]'
+            }`}
+          >
             Royatek Yazılım olarak, işletmenize özel web ve mobil yazılım çözümleriyle dijital dönüşümünüzü hızlandırıyoruz.
           </p>
           <a
+            ref={ctaRef}
             href="#contact"
-            className="inline-flex items-center gap-2 px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-500 text-white font-bold rounded-full shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 text-lg animate-fade-in delay-200 relative group"
+            onClick={(e) => {
+              e.preventDefault();
+              const el = document.querySelector('#contact');
+              if (el) {
+                const headerHeight = 80;
+                const targetPosition = el.offsetTop - headerHeight;
+                window.scrollTo({
+                  top: targetPosition,
+                  behavior: 'smooth'
+                });
+              }
+            }}
+            className={`inline-flex items-center gap-2 px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-500 text-white font-bold rounded-full shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 text-lg relative group hover-float ${
+              ctaRevealed ? 'animate-bounce-in' : 'opacity-0 scale-75'
+            }`}
             style={{boxShadow: '0 0 24px 4px #a78bfa55'}}
           >
             <span>Hemen Teklif Al</span>
@@ -39,19 +72,29 @@ export default function HeroSection() {
             </span>
             <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 opacity-30 blur-lg group-hover:opacity-60 transition-all duration-300 -z-10"></span>
           </a>
-          <div className="mt-8 text-gray-500 text-sm flex gap-4 items-center animate-fade-in delay-300">
+          <div 
+            ref={logosRef}
+            className={`mt-8 text-gray-500 text-sm flex gap-4 items-center transition-all duration-1000 delay-500 ${
+              logosRevealed ? 'animate-slide-in-left' : 'opacity-0 translate-x-[-60px]'
+            }`}
+          >
             <span>Güvenilir markalar:</span>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="logo1" className="h-6 animate-fade-in delay-400" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="logo2" className="h-6 animate-fade-in delay-500" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Sass_Logo_Color.svg" alt="logo3" className="h-6 animate-fade-in delay-600" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="logo1" className="h-6 hover-float" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="logo2" className="h-6 hover-float" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Sass_Logo_Color.svg" alt="logo3" className="h-6 hover-float" />
           </div>
         </div>
         {/* Sağ: Modern görsel/mockup + kod overlay */}
-        <div className="flex-1 flex justify-center items-center animate-fade-in delay-200 relative">
+        <div 
+          ref={imageRef}
+          className={`flex-1 flex justify-center items-center relative transition-all duration-1000 delay-300 ${
+            imageRevealed ? 'animate-slide-in-right' : 'opacity-0 translate-x-[60px]'
+          }`}
+        >
           <img
             src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=80"
             alt="Royal Yazılım Hero Görsel"
-            className="rounded-3xl shadow-2xl w-full max-w-md object-cover border-4 border-blue-100"
+            className="rounded-3xl shadow-2xl w-full max-w-md object-cover border-4 border-blue-100 hover-float"
           />
           {/* Kod bloğu overlay */}
           <div className="absolute top-8 left-1/2 -translate-x-1/2 w-72 bg-black/80 text-green-400 font-mono text-xs rounded-xl shadow-lg p-4 animate-fade-in delay-400 border border-green-300" style={{backdropFilter:'blur(2px)'}}>
@@ -62,7 +105,7 @@ export default function HeroSection() {
         </div>
       </div>
       {/* Aşağı kaydır ok animasyonu ve metin */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center animate-fade-in delay-700">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center animate-fade-in delay-700 hover-float">
         <svg className="w-8 h-8 text-blue-400 animate-bounce" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7" /></svg>
         <span className="text-xs text-blue-500 mt-2 tracking-wide">Daha fazla keşfet</span>
       </div>

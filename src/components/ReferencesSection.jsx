@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useScrollReveal } from "../hooks/useScrollReveal";
 
 const references = [
   {
@@ -55,6 +56,12 @@ const references = [
 ];
 
 export default function ReferencesSection() {
+  const [headerRef, headerRevealed] = useScrollReveal({ delay: 200 });
+  const [statsRef, statsRevealed] = useScrollReveal({ delay: 400 });
+  const [ref1Ref, ref1Revealed] = useScrollReveal({ delay: 300 });
+  const [ref2Ref, ref2Revealed] = useScrollReveal({ delay: 500 });
+  const [ref3Ref, ref3Revealed] = useScrollReveal({ delay: 700 });
+
   return (
     <section id="references" className="relative py-32 bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50 px-4 overflow-hidden">
       {/* Dekoratif arka plan elementleri */}
@@ -79,7 +86,12 @@ export default function ReferencesSection() {
 
       <div className="relative max-w-7xl mx-auto z-10">
         {/* Header */}
-        <div className="text-center mb-20 animate-fade-in">
+        <div 
+          ref={headerRef}
+          className={`text-center mb-20 transition-all duration-1000 ${
+            headerRevealed ? 'animate-slide-in-bottom' : 'opacity-0 translate-y-[60px]'
+          }`}
+        >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-100 to-blue-100 rounded-full text-green-700 font-medium text-sm mb-6">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -96,127 +108,121 @@ export default function ReferencesSection() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg">
+        <div 
+          ref={statsRef}
+          className={`grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 transition-all duration-1000 ${
+            statsRevealed ? 'animate-slide-in-bottom' : 'opacity-0 translate-y-[60px]'
+          }`}
+        >
+          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg hover-float">
             <div className="text-3xl font-bold text-blue-600 mb-2">50+</div>
-            <div className="text-gray-600 font-medium">Tamamlanan Proje</div>
+            <div className="text-sm text-gray-600 font-medium">Tamamlanan Proje</div>
           </div>
-          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg">
+          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg hover-float">
             <div className="text-3xl font-bold text-purple-600 mb-2">30+</div>
-            <div className="text-gray-600 font-medium">Mutlu Müşteri</div>
+            <div className="text-sm text-gray-600 font-medium">Mutlu Müşteri</div>
           </div>
-          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg">
+          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg hover-float">
             <div className="text-3xl font-bold text-green-600 mb-2">5+</div>
-            <div className="text-gray-600 font-medium">Yıllık Deneyim</div>
+            <div className="text-sm text-gray-600 font-medium">Yıllık Deneyim</div>
           </div>
-          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg">
-            <div className="text-3xl font-bold text-orange-600 mb-2">%100</div>
-            <div className="text-gray-600 font-medium">Müşteri Memnuniyeti</div>
+          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg hover-float">
+            <div className="text-3xl font-bold text-orange-600 mb-2">24/7</div>
+            <div className="text-sm text-gray-600 font-medium">Teknik Destek</div>
           </div>
         </div>
 
         {/* References Grid */}
-        <div className="grid gap-8 lg:gap-10 xl:grid-cols-3">
-          {references.map((ref, i) => (
-            <div
-              key={ref.name}
-              className="group relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50 hover:shadow-3xl transition-all duration-500 animate-fade-in overflow-hidden"
-              style={{ animationDelay: `${i * 0.15}s` }}
-            >
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              {/* Card Content */}
-              <div className="relative p-8">
-                {/* Header */}
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center gap-4">
-                    <div className="relative">
-                      <div className="bg-gradient-to-br from-blue-100 to-purple-100 p-3 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        {ref.logo}
-                      </div>
-                      <div className="absolute -inset-1 bg-gradient-to-br from-blue-400 to-purple-400 rounded-2xl blur opacity-25 group-hover:opacity-40 transition-opacity duration-300"></div>
+        <div className="grid lg:grid-cols-3 gap-8">
+          {references.map((reference, index) => {
+            const refs = [ref1Ref, ref2Ref, ref3Ref];
+            const revealed = [ref1Revealed, ref2Revealed, ref3Revealed];
+            
+            return (
+              <div
+                key={reference.name}
+                ref={refs[index]}
+                className={`group relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 hover:shadow-2xl transition-all duration-500 overflow-hidden hover-float ${
+                  revealed[index] ? 'animate-slide-in-bottom' : 'opacity-0 translate-y-[60px]'
+                }`}
+              >
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Content */}
+                <div className="relative p-8">
+                  {/* Header */}
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="group-hover:scale-110 transition-transform duration-300">
+                      {reference.logo}
                     </div>
                     <div>
                       <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-700 transition-colors duration-300">
-                        {ref.name}
+                        {reference.name}
                       </h3>
-                      <div className="inline-flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-blue-50 to-purple-50 rounded-full text-xs font-medium text-blue-700">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        {ref.industry}
-                      </div>
+                      <p className="text-blue-600 font-medium text-sm">{reference.industry}</p>
                     </div>
                   </div>
-                  {/* Rating */}
-                  <div className="flex items-center gap-1">
-                    {[...Array(ref.rating)].map((_, index) => (
-                      <svg key={index} className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
+                  
+                  {/* Description */}
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    {reference.desc}
+                  </p>
+                  
+                  {/* Project Details */}
+                  <div className="space-y-3 mb-6">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-500">Proje:</span>
+                      <span className="text-sm font-medium text-gray-900">{reference.project}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-500">Süre:</span>
+                      <span className="text-sm font-medium text-gray-900">{reference.duration}</span>
+                    </div>
                   </div>
-                </div>
-
-                {/* Project Info */}
-                <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-100/50">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-semibold text-blue-700">Proje:</span>
-                    <span className="text-sm font-medium text-gray-700">{ref.project}</span>
-                  </div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-semibold text-blue-700">Süre:</span>
-                    <span className="text-sm font-medium text-gray-700">{ref.duration}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-blue-700">Teknolojiler:</span>
-                    <div className="flex gap-1">
-                      {ref.technologies.map((tech, index) => (
-                        <span key={tech} className="px-2 py-1 bg-white/80 rounded-full text-xs font-medium text-gray-700 border border-blue-200/50">
+                  
+                  {/* Technologies */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-medium text-gray-700 mb-3">Kullanılan Teknolojiler:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {reference.technologies.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full"
+                        >
                           {tech}
                         </span>
                       ))}
                     </div>
                   </div>
-                </div>
-
-                {/* Description */}
-                <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                  {ref.desc}
-                </p>
-
-                {/* Testimonial */}
-                <div className="relative p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl border border-green-200/50">
-                  <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-                    </svg>
-                    <p className="text-sm text-gray-700 font-medium italic">
-                      "{ref.testimonial}"
-                    </p>
+                  
+                  {/* Rating */}
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="flex">
+                      {[...Array(reference.rating)].map((_, i) => (
+                        <svg
+                          key={i}
+                          className="w-5 h-5 text-yellow-400"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span className="text-sm text-gray-600">{reference.rating}/5</span>
+                  </div>
+                  
+                  {/* Testimonial */}
+                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-4 border border-blue-100/50">
+                    <p className="text-sm text-gray-700 italic">"{reference.testimonial}"</p>
                   </div>
                 </div>
               </div>
-
-              {/* Hover Border Effect */}
-              <div className="absolute inset-0 rounded-3xl border-2 border-transparent bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
-            </div>
-          ))}
+            );
+          })}
         </div>
-
       </div>
-
-      <style jsx>{`
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.15; transform: scale(1); }
-          50% { opacity: 0.25; transform: scale(1.05); }
-        }
-        .animate-pulse-slow {
-          animation: pulse-slow 8s ease-in-out infinite;
-        }
-        .shadow-3xl {
-          box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
-        }
-      `}</style>
     </section>
   );
 }

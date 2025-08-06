@@ -15,6 +15,16 @@
 
 ---
 
+## 📸 Proje Görselleri
+
+<div align="center">
+  
+### 🖥️ Desktop Görünümü
+![Desktop View](https://via.placeholder.com/1200x800/3B82F6/FFFFFF?text=Desktop+View+-+Royatek+Yazılım)
+</div>
+
+---
+
 ## ✨ Özellikler
 
 <div align="center">
@@ -40,6 +50,21 @@
 
 </div>
 
+## 🎯 Öne Çıkan Özellikler
+
+<div align="center">
+
+### 🎭 Smooth Scroll Animasyonları
+![Smooth Scroll](https://via.placeholder.com/400x250/3B82F6/FFFFFF?text=Smooth+Scroll+Animations)
+
+### 📱 Responsive Design
+![Responsive](https://via.placeholder.com/400x250/8B5CF6/FFFFFF?text=Responsive+Design)
+
+### ⚡ Performance Optimized
+![Performance](https://via.placeholder.com/400x250/10B981/FFFFFF?text=Performance+Optimized)
+
+</div>
+
 ## 📁 Proje Yapısı
 
 ```
@@ -57,6 +82,8 @@ royatek-yazilim/
 │   │   ├── 💬 TestimonialsSection.jsx # Müşteri yorumları
 │   │   ├── 📞 ContactSection.jsx      # İletişim formu
 │   │   └── 🦶 Footer.jsx              # Footer
+│   ├── 📁 hooks/
+│   │   └── 🔧 useScrollReveal.js      # Scroll reveal hooks
 │   ├── 🚀 App.jsx                     # Ana uygulama
 │   ├── 📄 main.jsx                    # Entry point
 │   └── 🎨 index.css                   # Global styles
@@ -64,6 +91,43 @@ royatek-yazilim/
 ├── 📦 package.json                    # Dependencies
 └── 📖 README.md                       # Bu dosya
 ```
+
+## 🚀 Kurulum ve Çalıştırma
+
+```bash
+# Projeyi klonlayın
+git clone https://github.com/your-username/royatek-yazilim.git
+
+# Proje dizinine gidin
+cd royatek-yazilim
+
+# Bağımlılıkları yükleyin
+npm install
+
+# Geliştirme sunucusunu başlatın
+npm run dev
+
+# Production build
+npm run build
+```
+
+## 🎨 Tasarım Özellikleri
+
+<div align="center">
+
+### 🎨 Modern UI/UX
+- **Gradient Backgrounds** - Mavi-mor gradient kombinasyonları
+- **Glassmorphism** - Cam efekti tasarım elementleri
+- **Smooth Animations** - Yumuşak geçişler ve hover efektleri
+- **Responsive Grid** - Tüm cihazlarda mükemmel görünüm
+
+### 🎭 Animasyon Sistemi
+- **Scroll Reveal** - Elementler viewport'a girdiğinde animasyon
+- **Hover Effects** - Float, scale ve glow efektleri
+- **Smooth Scroll** - Cubic easing ile yumuşak geçişler
+- **Staggered Animations** - Sıralı gecikmeler ile görünüm
+
+</div>
 
 ## 📄 Lisans
 
