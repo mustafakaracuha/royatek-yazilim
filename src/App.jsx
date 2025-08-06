@@ -1,4 +1,5 @@
 import { useScrollProgress } from "./hooks/useScrollReveal";
+import { useState } from "react";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import ServicesSection from "./components/ServicesSection";
@@ -7,6 +8,7 @@ import AboutSection from "./components/AboutSection";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
 import TestimonialsSection from "./components/TestimonialsSection";
+import WhatsAppButton from "./components/WhatsAppButton";
 
 function App() {
   const scrollProgress = useScrollProgress();
@@ -17,7 +19,8 @@ function App() {
         Ana içeriğe geç
       </a>
       
-      <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
+      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans flex flex-col transition-colors duration-300">
+      
         <div 
           className="scroll-progress"
           style={{ width: `${scrollProgress}%` }}
@@ -36,6 +39,8 @@ function App() {
         </main>
         
         <Footer />
+        
+        <WhatsAppButton />
       </div>
     </>
   );
