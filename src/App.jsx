@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import TestimonialsSection from "./components/TestimonialsSection";
 import WhatsAppButton from "./components/WhatsAppButton";
 import BackToTop from "./components/BackToTop";
+import StatsCounter from "./components/StatsCounter";
 
 function App() {
   const scrollProgress = useScrollProgress();
@@ -34,6 +35,7 @@ function App() {
         <main id="main-content" role="main">
           <HeroSection />
           <ServicesSection />
+          <StatsCounter />
           <AboutSection />
           <ReferencesSection />
           <TestimonialsSection />

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 const menu = [
-  { name: "Anasayfa", href: "#hero" },
   { name: "Hakkımızda", href: "#about" },
   { name: "Hizmetler", href: "#services" },
   { name: "Referanslar", href: "#references" },
